@@ -2,9 +2,9 @@ export const quotes_types = [
     'proverb',
     'wise_quote',
     'silly_quote'
-] as const
+]
 
-export const languages = [
+export let languages = [
     'en',
     'ar'
-] as const
+]

@@ -37,7 +37,7 @@ describe('check user controller', () => {
             await checkUser(testData.dataBase as any, user as any);
         }catch(error){
             assert.strictEqual((error as any).statusCode, 404);
-            assert.strictEqual((error as any).message, `could't find any user with this email and password!`);
+            assert.strictEqual((error as any).message, `could't find any user with this data!`);
         }
     });
 

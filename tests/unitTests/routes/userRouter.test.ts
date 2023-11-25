@@ -1,5 +1,5 @@
 import express from "express";
-import { userRouter } from "../../../src/routes/userRouter";
+import { userRoute } from "../../../src/routes/userRoute";
 import request from "supertest";
 import assert from "node:assert/strict";
 import { before, describe, it } from "node:test";
@@ -42,7 +42,7 @@ describe("user router", () => {
     app.use(express.json());
 
     before(() => {
-        app.use("/api/users", userRouter(userRouterData as any));
+        app.use("/api/users", userRoute(userRouterData as any));
     });
 
     describe("auth", () => {

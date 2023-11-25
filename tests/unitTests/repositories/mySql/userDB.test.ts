@@ -21,7 +21,8 @@ describe('userDB test', () => {
 
         assert.strictEqual(fn.mock.calls.length, 1);
         assert.strictEqual(fn.mock.calls[0].arguments.length, 1);
-        assert.match(fn.mock.calls[0].arguments.at(0)! as string, /insert into .+ values \('12345678','test@email\.com','password'\)/)
+        assert.match(fn.mock.calls[0].arguments.at(0)! as string, 
+        /insert into [a-zA-Z]+ values \('12345678','test@email\.com','password'\)/)
     });
 
     it('should get all the users', async (t) => {
@@ -37,7 +38,7 @@ describe('userDB test', () => {
         assert.deepStrictEqual(users, testUsersData);
         assert.strictEqual(fn.mock.calls.length, 2);
         assert.strictEqual(fn.mock.calls[1].arguments.length, 1);
-        assert.match(fn.mock.calls[1].arguments.at(0)! as string, /^select \* from .+$/)
+        assert.match(fn.mock.calls[1].arguments.at(0)! as string, /^select \* from [a-zA-Z]+$/)
     });
 
     it('should get the user by id', async (t) => {
@@ -50,7 +51,8 @@ describe('userDB test', () => {
         assert.deepStrictEqual(user, testUserData[0]);
         assert.strictEqual(fn.mock.calls.length, 3);
         assert.strictEqual(fn.mock.calls[2].arguments.length, 1);
-        assert.match(fn.mock.calls[2].arguments.at(0)! as string, /^select \* from .+ where id = '12345678'$/)
+        assert.match(fn.mock.calls[2].arguments.at(0)! as string, 
+        /^select \* from [a-zA-Z]+ where id = '12345678'$/)
     });
 
     it('should get the user by table name (email)', async (t) => {
@@ -63,7 +65,8 @@ describe('userDB test', () => {
         assert.deepStrictEqual(user, testUserData[0]);
         assert.strictEqual(fn.mock.calls.length, 4);
         assert.strictEqual(fn.mock.calls[3].arguments.length, 1);
-        assert.match(fn.mock.calls[3].arguments.at(0)! as string, /^select \* from .+ where email = 'test@email\.com'$/)
+        assert.match(fn.mock.calls[3].arguments.at(0)! as string, 
+        /^select \* from [a-zA-Z]+ where email = 'test@email\.com'$/)
     });
 
     it('should update the user', async (t) => {
@@ -71,7 +74,8 @@ describe('userDB test', () => {
 
         assert.strictEqual(fn.mock.calls.length, 5);
         assert.strictEqual(fn.mock.calls[4].arguments.length, 1);
-        assert.match(fn.mock.calls[4].arguments.at(0)! as string, /^update .+ set email = 'new@email\.com' where id = '12345678'$/)
+        assert.match(fn.mock.calls[4].arguments.at(0)! as string, 
+        /^update [a-zA-Z]+ set email = 'new@email\.com' where id = '12345678'$/)
     });
 
     it('should delete the user', async (t) => {
@@ -79,6 +83,7 @@ describe('userDB test', () => {
 
         assert.strictEqual(fn.mock.calls.length, 6);
         assert.strictEqual(fn.mock.calls[5].arguments.length, 1);
-        assert.match(fn.mock.calls[5].arguments.at(0)! as string, /^delete from .+ where id = '12345678'$/)
+        assert.match(fn.mock.calls[5].arguments.at(0)! as string, 
+        /^delete from [a-zA-Z]+ where id = '12345678'$/)
     });
 });
