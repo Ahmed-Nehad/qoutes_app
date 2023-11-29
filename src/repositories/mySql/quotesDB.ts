@@ -1,7 +1,7 @@
 import { Pool } from "mysql2/promise"
 import { language, quote } from "../../models/userModel";
 import interface_quotesDB from "../../interfaces/repositories/quotesDB";
-import { languages, quotes_types } from "../../models/quotesModel";
+import { quotes_types } from "../../models/quotesModel";
 require("dotenv").config();
 
 const quotesTableName = process.env.quotesTableName;
@@ -42,7 +42,6 @@ export default class QuotesDB implements interface_quotesDB {
             // replaced all the ` with ${'`'}
 
         await this.mySqlPool.execute(sql); 
-        
-        languages.push(language);
+
     }
 }

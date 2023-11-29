@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import interface_userDB from "../interfaces/repositories/userDB";
 import { user } from "../models/userModel";
+import authentication from "../middlewares/userAuth";
 import { interface_authUser, interface_createTokens } from "../interfaces/services/auth/userAuth";
 import { interface_checkUser } from "../interfaces/controllers/checkUser";
 import { interface_createUser } from "../interfaces/controllers/createUser";
@@ -17,6 +18,20 @@ import { checkUser } from "../controllers/userController/checkUser";
 import { Pool } from "mysql2/promise";
 import UserDB from "../repositories/mySql/userDB";
 ///
+
+export default function getUserRoute(dbPool: Pool){
+    const dataBase = new UserDB(dbPool);
+    return userRoute({
+        dataBase,
+        authUser,
+        createTokens,
+        createUser,
+        getUser,
+        deleteUser,
+        updateUser,
+        checkUser
+    })
+}
 
 export function userRoute(fns:{
     dataBase: interface_userDB, 
@@ -75,35 +90,7 @@ export function userRoute(fns:{
     });
 
     // auth the next requests
-    router.use('/', async (request: Request, response: Response, next: NextFunction) => {
-        try{
-            const authToken = request.header('Authorization') || request.header('authorization');
-
-            if(authToken && authToken.startsWith('Bearer')){
-
-                const reqToken = authToken.split(' ')[1];
-                const reqRefreshToken = request.header('refresh_token');
-
-                const {decoded, token, refreshToken} = await fns.authUser(reqToken, reqRefreshToken!)
-
-                if(token != reqToken) response.header('token',token);
-                if(refreshToken != reqRefreshToken) response.header('refresh_token',refreshToken);
-
-                (request as any).userInfo = decoded;
-
-                next();
-            }else{
-                response.sendStatus(401); // unAuthorized
-            }
-        }catch(error: any){
-            if(error.error) console.error(error.error);
-            response.statusCode = error.statusCode ?? 500;
-            response.json({
-                status: 'bad',
-                message: error.message
-            });
-        }
-    });
+    router.use('/', authentication(authUser));
 
     router.get('/', async (request: Request, response: Response) => {
         try{
@@ -168,17 +155,3 @@ export function userRoute(fns:{
 
     return router;
 };
-
-export default function getUserRoute(dbPool: Pool){
-    const dataBase = new UserDB(dbPool);
-    return userRoute({
-        dataBase,
-        authUser,
-        createTokens,
-        createUser,
-        getUser,
-        deleteUser,
-        updateUser,
-        checkUser
-    })
-}

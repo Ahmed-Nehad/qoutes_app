@@ -17,7 +17,7 @@ try{
 
 
     const user_router = getUserRoute(mysqlPool);
-    app.use('/api/users', user_router);
+    app.use('/api/v1/users', user_router);
 
     app.use(
         errorHandler404, // check the 404 error

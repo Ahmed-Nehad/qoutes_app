@@ -7,7 +7,7 @@ require('dotenv').config();
 const port = process.env.PORT;
 const server = app.listen(port,() => console.log(`started the test server on http://localhost:${port}`));
 
-const usersApiUrl = `http://localhost:${port}/api/users`;
+const usersApiUrl = `http://localhost:${port}/api/v1/users`;
 
 describe('api test', () => {
 
