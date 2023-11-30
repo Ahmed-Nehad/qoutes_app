@@ -90,9 +90,9 @@ export function userRoute(fns:{
     });
 
     // auth the next requests
-    router.use('/', authentication(fns.authUser));
+    router.use('/user', authentication(fns.authUser));
 
-    router.get('/', async (request: Request, response: Response) => {
+    router.get('/user', async (request: Request, response: Response) => {
         try{
             const {id} = (request as any).userInfo;
 
@@ -112,7 +112,7 @@ export function userRoute(fns:{
         }
     });
 
-    router.patch('/', async (request: Request, response: Response) => {
+    router.patch('/user', async (request: Request, response: Response) => {
         try{
             const {id} = (request as any).userInfo;
             const user = request.body;
@@ -133,7 +133,7 @@ export function userRoute(fns:{
         }
     });
 
-    router.delete('/', async (request: Request, response: Response) => {
+    router.delete('/user', async (request: Request, response: Response) => {
         try{
             const {id} = (request as any).userInfo;
 

@@ -53,7 +53,7 @@ describe("user router", () => {
         describe("POST /api/users/sign-up", () => {
 
             it("should sign up and return tokens", async () => {
-                
+
                 const response = await request(app)
                     .post("/api/users/sign-up")
                     .send(user);
@@ -140,7 +140,7 @@ describe("user router", () => {
 
         it("should fail bec. no tokens", async () => {
 
-            const response = await request(app).get("/api/users");
+            const response = await request(app).get("/api/users/user");
 
             assert.strictEqual(response.statusCode, 401);
         });
@@ -150,7 +150,7 @@ describe("user router", () => {
             it("should return my user", async () => {
 
                 const response = await request(app)
-                    .get("/api/users")
+                    .get("/api/users/user")
                     .set("authorization", `Bearer ${testData.token}`)
                     .set("refresh_token", testData.refresh_token);
 
@@ -172,7 +172,7 @@ describe("user router", () => {
                     })
                 );
 
-                const response = await request(app).get("/api/users")
+                const response = await request(app).get("/api/users/user")
                     .set("authorization", `Bearer ${testData.token}`)
                     .set("refresh_token", testData.refresh_token);
 
@@ -186,7 +186,7 @@ describe("user router", () => {
 
             it("should update my user", async () => {
 
-                const response = await request(app).patch("/api/users")
+                const response = await request(app).patch("/api/users/user")
                     .send({ email: testData.email })
                     .set("authorization", `Bearer ${testData.token}`)
                     .set("refresh_token", testData.refresh_token);
@@ -203,7 +203,7 @@ describe("user router", () => {
                     })
                 );
 
-                const response = await request(app).patch("/api/users")
+                const response = await request(app).patch("/api/users/user")
                     .send({ email: testData.email })
                     .set("authorization", `Bearer ${testData.token}`)
                     .set("refresh_token", testData.refresh_token);
@@ -217,7 +217,7 @@ describe("user router", () => {
 
             it("should delete my user", async () => {
 
-                const response = await request(app).delete("/api/users")
+                const response = await request(app).delete("/api/users/user")
                     .set("authorization", `Bearer ${testData.token}`)
                     .set("refresh_token", testData.refresh_token);
 
@@ -233,7 +233,7 @@ describe("user router", () => {
                     })
                 );
 
-                const response = await request(app).delete("/api/users")
+                const response = await request(app).delete("/api/users/user")
                     .set("authorization", `Bearer ${testData.token}`)
                     .set("refresh_token", testData.refresh_token);
 
