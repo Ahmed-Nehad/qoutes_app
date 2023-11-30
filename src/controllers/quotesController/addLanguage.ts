@@ -4,6 +4,9 @@ import { languages } from "../../models/quotesModel";
 
 export const addLanguage: interface_addLanguage = async (database: interface_quotesDB, language: string) => {
     try{
+
+        if(languages.includes(language)) throw {statusCode: 409, message: `This language "${language}" already exist. `}
+
         await database.addNewLanguage(language);
 
         languages.push(language);

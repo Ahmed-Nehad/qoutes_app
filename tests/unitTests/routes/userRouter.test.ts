@@ -6,6 +6,7 @@ import { before, describe, it } from "node:test";
 import { languages, quotes_types } from "../../../src/models/quotesModel";
 
 describe("user router", () => {
+
     const testData = {
         id: "12345678",
         email: "test@email.com",
@@ -15,6 +16,7 @@ describe("user router", () => {
         token: "token",
         refresh_token: "refreshToken",
     };
+    
     const userRouterData = {
         dataBase: {},
         authUser: async (token: string, refreshToken: string) =>
@@ -51,6 +53,7 @@ describe("user router", () => {
         describe("POST /api/users/sign-up", () => {
 
             it("should sign up and return tokens", async () => {
+                
                 const response = await request(app)
                     .post("/api/users/sign-up")
                     .send(user);
@@ -61,6 +64,7 @@ describe("user router", () => {
             });
 
             it("should fail bec. no data", async () => {
+
                 const response = await request(app).post("/api/users/sign-up");
 
                 assert.strictEqual(response.statusCode, 400);
@@ -72,6 +76,7 @@ describe("user router", () => {
             });
 
             it("should fail due internal error", async (t) => {
+
                 t.mock.method(userRouterData, "createUser", async () =>
                     Promise.reject({
                         statusCode: 500,
@@ -92,6 +97,7 @@ describe("user router", () => {
         describe("POST /api/users/sign-in", () => {
 
             it("should sign in and return tokens", async () => {
+
                 const response = await request(app)
                     .post("/api/users/sign-in")
                     .send(user);
@@ -102,6 +108,7 @@ describe("user router", () => {
             });
 
             it("should fail bec. no data", async () => {
+
                 const response = await request(app).post("/api/users/sign-in");
 
                 assert.strictEqual(response.statusCode, 400);
@@ -110,6 +117,7 @@ describe("user router", () => {
             });
 
             it("should fail due internal error", async (t) => {
+
                 t.mock.method(userRouterData, "checkUser", async () =>
                     Promise.reject({
                         statusCode: 500,
@@ -131,6 +139,7 @@ describe("user router", () => {
     describe("RUD operations with token", () => {
 
         it("should fail bec. no tokens", async () => {
+
             const response = await request(app).get("/api/users");
 
             assert.strictEqual(response.statusCode, 401);
@@ -139,6 +148,7 @@ describe("user router", () => {
         describe("Get /api/users", () => {
 
             it("should return my user", async () => {
+
                 const response = await request(app)
                     .get("/api/users")
                     .set("authorization", `Bearer ${testData.token}`)
@@ -154,6 +164,7 @@ describe("user router", () => {
             });
 
             it("should fail due internal error", async (t) => {
+
                 t.mock.method(userRouterData, "getUser", async () =>
                     Promise.reject({
                         statusCode: 500,
@@ -174,6 +185,7 @@ describe("user router", () => {
         describe("PATCH /api/users", () => {
 
             it("should update my user", async () => {
+
                 const response = await request(app).patch("/api/users")
                     .send({ email: testData.email })
                     .set("authorization", `Bearer ${testData.token}`)
@@ -183,6 +195,7 @@ describe("user router", () => {
             });
 
             it("should fail due internal error", async (t) => {
+
                 t.mock.method(userRouterData, "updateUser", async () =>
                     Promise.reject({
                         statusCode: 500,
@@ -203,6 +216,7 @@ describe("user router", () => {
         describe("DELETE /api/users", () => {
 
             it("should delete my user", async () => {
+
                 const response = await request(app).delete("/api/users")
                     .set("authorization", `Bearer ${testData.token}`)
                     .set("refresh_token", testData.refresh_token);
@@ -211,6 +225,7 @@ describe("user router", () => {
             });
 
             it("should fail due internal error", async (t) => {
+
                 t.mock.method(userRouterData, "deleteUser", async () =>
                     Promise.reject({
                         statusCode: 500,

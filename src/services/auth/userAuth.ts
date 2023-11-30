@@ -29,7 +29,7 @@ export const authUser = async (token: string, refreshToken: string) => {
                         refreshToken: newTokens.refreshToken
                     };
                 } else {
-                    throw { statusCode: 403, message: "you need to include a valid token and refresh token!" };
+                    throw { statusCode: 401, message: "you need to include a valid token and refresh token!" };
                 }
             });
         }

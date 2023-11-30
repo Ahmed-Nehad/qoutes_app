@@ -90,7 +90,7 @@ export function userRoute(fns:{
     });
 
     // auth the next requests
-    router.use('/', authentication(authUser));
+    router.use('/', authentication(fns.authUser));
 
     router.get('/', async (request: Request, response: Response) => {
         try{

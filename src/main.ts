@@ -6,27 +6,22 @@ import { initEmailList } from './services/emailList';
 import startSending from './services/scheduleService';
 
 const app = express();
-try{
-    const mysqlPool = getMysqlDS();
 
-    app.use(express.json());
-    
-    if(process.env.NODE_ENV !== 'test'){
-        initEmailList(mysqlPool).then( () => startSending(mysqlPool, 6) );
-    }
+const mysqlPool = getMysqlDS();
 
+app.use(express.json());
 
-    const user_router = getUserRoute(mysqlPool);
-    app.use('/api/v1/users', user_router);
-
-    app.use(
-        errorHandler404, // check the 404 error
-        errorHandler // check for other not processed errors
-        )
-        
-} catch(error){
-    console.error('an unknown error happened in the server:');
-    console.error(error)
+if(process.env.NODE_ENV !== 'test'){
+    initEmailList(mysqlPool).then( () => startSending(mysqlPool, 6) );
 }
 
+
+const user_router = getUserRoute(mysqlPool);
+app.use('/api/v1/users', user_router);
+
+app.use(
+    errorHandler404, // check the 404 error
+    errorHandler // check for other not processed errors
+    )
+        
 export default app;
