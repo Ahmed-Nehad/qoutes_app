@@ -3,22 +3,23 @@ import authentication from "../middlewares/adminAuth";
 import interface_quotesDB from "../interfaces/repositories/quotesDB";
 import { interface_addQuotes } from "../interfaces/controllers/quotesController/addQuotes";
 import { interface_addLanguage } from "../interfaces/controllers/quotesController/addLanguage";
+//
+import QuotesDB from "../repositories/mySql/quotesDB";
+import { Pool } from "mysql2/promise";
+import { addQuotes } from "../controllers/quotesController/addQuotes";
+import { addLanguage } from "../controllers/quotesController/addLanguage";
+//
 
-// export default function getUserRoute(dbPool: Pool){
-//     const dataBase = new UserDB(dbPool);
-//     return userRoute({
-//         dataBase,
-//         authUser,
-//         createTokens,
-//         createUser,
-//         getUser,
-//         deleteUser,
-//         updateUser,
-//         checkUser
-//     })
-// }
+export default function getQuotesRoute(dbPool: Pool){
+    const dataBase = new QuotesDB(dbPool);
+    return quotesRoute({
+        dataBase,
+        addQuotes,
+        addLanguage
+    })
+}
 
-export function userRoute(fns:{
+export function quotesRoute(fns:{
         dataBase: interface_quotesDB, 
         addQuotes: interface_addQuotes,
         addLanguage: interface_addLanguage
