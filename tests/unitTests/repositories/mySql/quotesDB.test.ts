@@ -35,7 +35,7 @@ describe('quotesDB test', () => {
         assert.strictEqual(fn.mock.calls.length, 1);
         assert.strictEqual(fn.mock.calls[0].arguments.length, 1);
         assert.match(fn.mock.calls[0].arguments.at(0)! as string,
-        /^insert into [a-zA-Z_]+ values \('\["silly1","silly2"\]','\["wise1","wise2"\]'\)$/);
+        /^insert into [a-zA-Z_]+ values \(0, '\["silly1","silly2"\]','\["wise1","wise2"\]'\)$/);
     });
 
     it('should add new language', async (t) => {

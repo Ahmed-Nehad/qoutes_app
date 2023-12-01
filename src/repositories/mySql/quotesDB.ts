@@ -27,7 +27,7 @@ export default class QuotesDB implements interface_quotesDB {
     async addQuotes(language: language, quotes: {[i in quote]:string[]}): Promise<void> {
         const newValues = Object.values(quotes).map( value => Array.isArray(value) ? `'[${value.map(e => `"${e}"`).join()}]'` : value);
 
-        await this.mySqlPool.execute(`insert into ${quotesTableName}${language} values (${newValues.join()})`);
+        await this.mySqlPool.execute(`insert into ${quotesTableName}${language} values (0, ${newValues.join()})`);
     }
 
     async addNewLanguage(language: string): Promise<void> {

@@ -4,6 +4,7 @@ import getUserRoute from './routes/userRoute';
 import errorHandler, {errorHandler404} from './middlewares/errorHandler';
 import { initEmailList } from './services/emailList';
 import startSending from './services/scheduleService';
+import getQuotesRoute from './routes/quotesRoute';
 
 const app = express();
 
@@ -15,9 +16,9 @@ if(process.env.NODE_ENV !== 'test'){
     initEmailList(mysqlPool).then( () => startSending(mysqlPool, 6) );
 }
 
+app.use('/api/v1/users', getUserRoute(mysqlPool));
 
-const user_router = getUserRoute(mysqlPool);
-app.use('/api/v1/users', user_router);
+app.use('/api/v1/quotes', getQuotesRoute(mysqlPool));
 
 app.use(
     errorHandler404, // check the 404 error
